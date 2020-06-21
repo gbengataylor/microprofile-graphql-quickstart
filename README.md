@@ -13,6 +13,130 @@ You can run your application in dev mode that enables live coding using:
 ```
 ./mvnw quarkus:dev
 ```
+## To test Queries
+
+Go to http://localhost:8080/graphql-ui
+
+### Example Queries
+
+```
+#Query all films
+query allFilms {
+  allFilms {
+    title
+    director
+    releaseDate
+    episodeID
+  }
+}
+```
+
+```
+#Query all films, certain fields
+query allFilms {
+  allFilms {
+    title
+    releaseDate
+  }
+}
+```
+
+```
+# retrieve specific film
+query getFilm {
+  film(filmId: 1) {
+    title
+    director
+    releaseDate
+    episodeID
+  }
+}
+```
+
+```
+# retrieve specific films
+query getFilms {
+  film0: film(filmId: 0) {
+    title
+    director
+    releaseDate
+    episodeID
+  }
+  film1: film(filmId: 1) {
+    title
+    director
+    releaseDate
+    episodeID
+  }
+}
+```
+
+```
+#retrieve films with heroes included..See implement FilmResource.heroes that assoicates Films with Heroes
+query getFilmHeroes {
+  film(filmId: 1) {
+    title
+    director
+    releaseDate
+    episodeID
+    heroes {
+      name
+      height
+      mass
+      darkSide
+      lightSaber
+    }
+  }
+}
+```
+
+```
+# add a Hero
+mutation addHero {
+  createHero(hero: {
+      name: "Han",
+      surname: "Solo"
+      height: 1.85
+      mass: 80
+      darkSide: false
+      episodeIds: [4, 5, 6]
+  	}
+  )
+  {
+    name
+    surname
+  }
+}
+```
+
+```
+#Delete a hero
+mutation DeleteHero {
+  deleteHero(id :3){
+    name
+    surname
+  }
+}
+```
+
+```
+#Query based on field (but using default value, see implementation)
+query heroWithDefaultSurname {
+  heroesWithSurname{
+    name
+    surname
+    lightSaber
+  }
+}
+#Query based on field
+query heroWithSurnames {
+  heroesWithSurname(surname: "Vader") {
+    name
+    surname
+    lightSaber
+  }
+}
+```
 
 ## Packaging and running the application
 
